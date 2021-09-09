@@ -8,12 +8,8 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
 
 import com.bimetri.products.registration.school.bean.ModelBase;
-import com.bimetri.products.registration.school.bean.dto.DTOCourse;
-import com.bimetri.products.registration.school.bean.dto.DTOStudent;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -31,13 +27,13 @@ public class CourseRegistration extends ModelBase {
 	
 	@ManyToOne
     @JoinColumn(name = "studentid")
-	private DTOStudent student;
+	private Student student;
 	
 	@ManyToOne
     @JoinColumn(name = "courseid")
-	private DTOCourse course;
+	private Course course;
 	
-	@Temporal(TemporalType.TIMESTAMP)
+	//@Temporal(TemporalType.TIMESTAMP)
 	@Column(name="registerationtime")
 	private LocalDateTime registerationTime;
 	
