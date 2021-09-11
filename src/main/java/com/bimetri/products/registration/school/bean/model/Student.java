@@ -2,6 +2,7 @@ package com.bimetri.products.registration.school.bean.model;
 
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -45,7 +46,7 @@ public class Student extends ModelBase {
 	@Column(name = "sex")
 	private Sex sex;
 	
-	@OneToMany(mappedBy = "student")
+	@OneToMany(mappedBy = "student", cascade = {CascadeType.REMOVE, CascadeType.REFRESH})
     private List<CourseRegistration> registrations;
 
 }

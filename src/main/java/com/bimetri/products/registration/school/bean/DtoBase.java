@@ -12,6 +12,7 @@ public abstract class DtoBase implements Serializable {
 	@Override
 	public String toString ()
 	{
+		int depth = 0;
 		Class < ? > clazz = this.getClass();
 		StringBuilder sb = new StringBuilder( clazz.getSimpleName() ).append( " [" );
 		while ( clazz != null && !clazz.equals( Object.class ) )
@@ -42,7 +43,14 @@ public abstract class DtoBase implements Serializable {
 			{
 				break;
 			}
+			
+			if ( depth >= 2 )
+			{
+				break;
+			}
+			
 			clazz = clazz.getSuperclass();
+			depth++;
 		}
 
 		int index = sb.lastIndexOf( "," );

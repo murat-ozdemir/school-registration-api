@@ -7,6 +7,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.lang.Nullable;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -24,7 +25,14 @@ import com.bimetri.products.registration.school.bean.response.Result;
 import com.bimetri.products.registration.school.bean.response.SuccessDataResult;
 import com.bimetri.products.registration.school.dao.DaoStudent;
 
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
+import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
+
 @RestController
+@Api(value = "Student CRUD Api", tags = {"Student CRUD Api"})
 public class StudentController {
 
 	private static final Logger logger = LoggerFactory.getLogger(StudentController.class);
@@ -34,6 +42,11 @@ public class StudentController {
 	private DaoStudent daoStudent;
 
 	@GetMapping("/student/list")
+	@ApiOperation(value = "Get All Students", produces = "application/json")
+	@ApiResponses(value = {
+			@ApiResponse(response = ErrorResult.class, code = 500, message = "ErrorResult model with description"),
+			@ApiResponse(response = SuccessDataResult.class, code = 200, message = "SuccessDataResult model with Student list in 'data' field")
+	})
 	public ResponseEntity<?> getAllStudents() {
 		try {
 			List<DtoStudent> existingStudents = daoStudent.getAllStudents();
@@ -52,16 +65,23 @@ public class StudentController {
 	}
 
 	@GetMapping("/student/{studentId}")
+	@ApiOperation(value = "Get Student By Id", produces = "application/json")
+	@ApiResponses(value = {
+			@ApiResponse(response = ErrorResult.class, code = 404, message = "ErrorResult model with description"),
+			@ApiResponse(response = ErrorResult.class, code = 500, message = "ErrorResult model with description"),
+			@ApiResponse(response = SuccessDataResult.class, code = 200, message = "SuccessDataResult model with Student model in 'data' field")
+	})
 	public ResponseEntity<?> getStudent(@PathVariable Integer studentId) {
 		try {
 			DtoStudent student = daoStudent.findByStudentId(studentId);
 			Result result = null;
 			if (Objects.nonNull(student)) {
 				result = new SuccessDataResult<DtoStudent>(student);
+				return ResponseEntity.ok(result);
 			} else {
 				result = new ErrorResult("Student with id:" + studentId + " not found!");
+				return ResponseEntity.status(HttpStatus.NOT_FOUND).body(result);
 			}
-			return ResponseEntity.ok(result);
 		} catch (Exception e) {
 			logger.error("Unable to get existing student!", e);
 			ErrorResult result = new ErrorResult(e.getMessage());
@@ -70,7 +90,17 @@ public class StudentController {
 	}
 
 	@PostMapping("/student/add")
-	public ResponseEntity<?> addStudent(@RequestBody @Nullable DtoStudent dtoStudent) {
+	@ApiOperation(value = "Add Student", produces = "application/json", 
+		notes = "WARNING! Student.schoolClass must contain both 1 char class number and 1 char branch, Eg. '3B' or '2A'")
+	@ApiResponses(value = {
+			@ApiResponse(response = ErrorDataResult.class, code = 400, message = "ErrorDataResult model with Students list in 'data' description"),
+			@ApiResponse(response = ErrorResult.class, code = 400, message = "ErrorResult model with description"),
+			@ApiResponse(response = ErrorResult.class, code = 500, message = "ErrorResult model with description"),
+			@ApiResponse(response = SuccessDataResult.class, code = 200, message = "SuccessDataResult model with Student model in 'data' field")
+	})
+	public ResponseEntity<?> addStudent(@RequestBody @Nullable 
+			@ApiParam(name = "Student", value = "New student definition without studentId and registrations fields", required = true) 
+			DtoStudent dtoStudent) {
 		try {
 			if (Objects.isNull(dtoStudent))
 				return ResponseEntity.badRequest().body(new ErrorResult("Student information could not be empty!"));
@@ -88,7 +118,7 @@ public class StudentController {
 			} else {
 				DtoStudent saved = daoStudent.saveStudent(dtoStudent);
 				SuccessDataResult<DtoStudent> result = new SuccessDataResult<DtoStudent>(saved, "added");
-				return ResponseEntity.ok(result);
+				return ResponseEntity.status(HttpStatus.CREATED).body(result);
 			}
 		} catch (Exception e) {
 			logger.error("Unable to add student!", e);
@@ -98,7 +128,15 @@ public class StudentController {
 	}
 
 	@PutMapping("/student/update")
-	public ResponseEntity<?> updateStudent(@RequestBody @Nullable DtoStudent dtoStudent) {
+	@ApiOperation(value = "Update Student", produces = "application/json")
+	@ApiResponses(value = {
+			@ApiResponse(response = ErrorResult.class, code = 400, message = "ErrorResult model with description"),
+			@ApiResponse(response = ErrorResult.class, code = 500, message = "ErrorResult model with description"),
+			@ApiResponse(response = SuccessDataResult.class, code = 200, message = "SuccessDataResult model with Student model in 'data' field")
+	})
+	public ResponseEntity<?> updateStudent(@RequestBody @Nullable 
+			@ApiParam(name = "Student", value = "Student definition to be updated with studentId and required updating fields only", required = true) 
+			DtoStudent dtoStudent) {
 		try {
 			if (Objects.isNull(dtoStudent))
 				return ResponseEntity.badRequest().body(new ErrorResult("Student information could not be empty!"));
@@ -114,7 +152,7 @@ public class StudentController {
 				return ResponseEntity.ok(result);
 			} else {
 				ErrorResult result = new ErrorResult("Student with id:" + dtoStudent.getStudentId() + " not found!");
-				return ResponseEntity.badRequest().body(result);
+				return ResponseEntity.status(HttpStatus.NOT_FOUND).body(result);
 			}
 		} catch (Exception e) {
 			logger.error("Unable to update student!", e);
@@ -123,7 +161,13 @@ public class StudentController {
 		}
 	}
 
-	@DeleteMapping("/student/{studentId}")
+	@DeleteMapping("/student/delete/{studentId}")
+	@ApiOperation(value = "Delete Student By Id", produces = "application/json")
+	@ApiResponses(value = {
+			@ApiResponse(response = ErrorResult.class, code = 400, message = "ErrorResult model with description"),
+			@ApiResponse(response = ErrorResult.class, code = 500, message = "ErrorResult model with description"),
+			@ApiResponse(response = SuccessDataResult.class, code = 200, message = "SuccessDataResult model with message in 'data' field")
+	})
 	public ResponseEntity<?> deleteStudent(@PathVariable Integer studentId) {
 		try {
 			boolean success = daoStudent.deleteStudent(studentId);
@@ -133,7 +177,7 @@ public class StudentController {
 				return ResponseEntity.ok(result);
 			} else {
 				result = new ErrorResult("Student with id:" + studentId + " not found!");
-				return ResponseEntity.badRequest().body(result);
+				return ResponseEntity.status(HttpStatus.NOT_FOUND).body(result);
 			}
 		} catch (Exception e) {
 			logger.error("Unable to delete existing student!", e);
