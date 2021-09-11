@@ -96,7 +96,7 @@ public class StudentController {
 			@ApiResponse(response = ErrorDataResult.class, code = 400, message = "ErrorDataResult model with Students list in 'data' description"),
 			@ApiResponse(response = ErrorResult.class, code = 400, message = "ErrorResult model with description"),
 			@ApiResponse(response = ErrorResult.class, code = 500, message = "ErrorResult model with description"),
-			@ApiResponse(response = SuccessDataResult.class, code = 200, message = "SuccessDataResult model with Student model in 'data' field")
+			@ApiResponse(response = SuccessDataResult.class, code = 201, message = "SuccessDataResult model with Student model in 'data' field")
 	})
 	public ResponseEntity<?> addStudent(@RequestBody @Nullable 
 			@ApiParam(name = "Student", value = "New student definition without studentId and registrations fields", required = true) 
