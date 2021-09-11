@@ -15,5 +15,5 @@ public interface DaoStudent {
 	
 	public DtoStudent saveStudent(DtoStudent dtoStudent) throws DaoException;
 	
-	public boolean deleteStudent(DtoStudent dtoStudent) throws DaoException;
+	public boolean deleteStudent(Integer id) throws DaoException;
 }

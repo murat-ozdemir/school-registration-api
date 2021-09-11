@@ -108,14 +108,18 @@ public class DaoStudentSpringDataJpaImpl extends DaoBase implements DaoStudent {
 	}
 
 	@Override
-	public boolean deleteStudent(DtoStudent dtoStudent) throws DaoException {
+	public boolean deleteStudent(Integer id) throws DaoException {
 		try {
-			if (Objects.nonNull(dtoStudent) && Objects.nonNull(dtoStudent.getStudentId())) {
-				studentRepo.deleteById(dtoStudent.getStudentId());
-				return true;
+			if (Objects.nonNull(id)) {
+				Optional<Student> student = studentRepo.findById(id);
+				if ( student.isPresent() ) {
+					studentRepo.deleteById(id);
+					return true;					
+				}
+				return false;
 			}
 		} catch (Exception e) {
-			throw new DaoException("Unable to delete student: " + dtoStudent.toString(), e);
+			throw new DaoException("Unable to delete student with id: " + id, e);
 		}
 		return false;
 	}

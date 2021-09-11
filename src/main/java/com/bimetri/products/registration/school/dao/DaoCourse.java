@@ -16,5 +16,5 @@ public interface DaoCourse {
 	
 	public DtoCourse saveCourse(DtoCourse dtoCourse) throws DaoException;
 	
-	public boolean deleteCourse(DtoCourse dtoCourse) throws DaoException;
+	public boolean deleteCourse(Integer id) throws DaoException;
 }

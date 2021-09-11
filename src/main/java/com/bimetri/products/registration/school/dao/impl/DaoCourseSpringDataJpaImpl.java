@@ -19,7 +19,7 @@ import com.bimetri.products.registration.school.exception.DaoException;
 
 @Component("DaoCourse")
 public class DaoCourseSpringDataJpaImpl extends DaoBase implements DaoCourse {
-	
+
 	@Autowired
 	private CourseRepository courseRepo;
 
@@ -37,7 +37,7 @@ public class DaoCourseSpringDataJpaImpl extends DaoBase implements DaoCourse {
 		}
 		return result;
 	}
-	
+
 	@Override
 	public List<DtoCourse> findByCategoryAndName(CourseCategory category, String courseName) throws DaoException {
 		List<DtoCourse> result = new ArrayList<DtoCourse>();
@@ -47,8 +47,8 @@ public class DaoCourseSpringDataJpaImpl extends DaoBase implements DaoCourse {
 			exampleInstance.setCourseName(courseName);
 			Example<Course> example = Example.of(exampleInstance, ExampleMatcher.matchingAll());
 			List<Course> foundCourses = courseRepo.findAll(example);
-			if ( Objects.nonNull(foundCourses) ) {
-				foundCourses.forEach( foundCourse -> {
+			if (Objects.nonNull(foundCourses)) {
+				foundCourses.forEach(foundCourse -> {
 					result.add(modelMapper.map(foundCourse, DtoCourse.class));
 				});
 			}
@@ -62,40 +62,40 @@ public class DaoCourseSpringDataJpaImpl extends DaoBase implements DaoCourse {
 	public DtoCourse findByCourseId(Integer id) throws DaoException {
 		try {
 			Optional<Course> opt = courseRepo.findById(id);
-			if(opt.isPresent())
+			if (opt.isPresent())
 				return modelMapper.map(opt.get(), DtoCourse.class);
 		} catch (Exception e) {
 			throw new DaoException("Unable to find course by id", e);
 		}
 		return null;
 	}
-	
+
 	@Override
 	public DtoCourse saveCourse(DtoCourse dtoCourse) throws DaoException {
 		try {
 			dtoCourse.convertEmptyStringsToNull();
 			Course model = modelMapper.map(dtoCourse, Course.class);
-			if ( Objects.nonNull(dtoCourse.getCourseId()) ) {
+			if (Objects.nonNull(dtoCourse.getCourseId())) {
 				// partial update
 				Optional<Course> courseOpt = courseRepo.findById(dtoCourse.getCourseId());
-				if ( courseOpt.isPresent() ) {
+				if (courseOpt.isPresent()) {
 					Course existing = courseOpt.get();
-					
-					if ( Objects.nonNull( model.getCategory() ) )
+
+					if (Objects.nonNull(model.getCategory()))
 						existing.setCategory(model.getCategory());
-					
-					if ( Objects.nonNull( model.getCourseName() ) )
+
+					if (Objects.nonNull(model.getCourseName()))
 						existing.setCourseName(model.getCourseName());
-					
-					if ( Objects.nonNull( model.getCredits() ) )
+
+					if (Objects.nonNull(model.getCredits()))
 						existing.setCredits(model.getCredits());
-					
-					if ( Objects.nonNull( model.getClassNumber() ) )
+
+					if (Objects.nonNull(model.getClassNumber()))
 						existing.setClassNumber(model.getClassNumber());
-					
-					if ( Objects.nonNull( model.getRegistrations() ) )
+
+					if (Objects.nonNull(model.getRegistrations()))
 						existing.setRegistrations(model.getRegistrations());
-					
+
 					model = existing;
 				}
 			}
@@ -108,14 +108,18 @@ public class DaoCourseSpringDataJpaImpl extends DaoBase implements DaoCourse {
 	}
 
 	@Override
-	public boolean deleteCourse(DtoCourse dtoCourse) throws DaoException {
+	public boolean deleteCourse(Integer id) throws DaoException {
 		try {
-			if ( Objects.nonNull(dtoCourse) && Objects.nonNull(dtoCourse.getCourseId())) {
-				courseRepo.deleteById(dtoCourse.getCourseId());
-				return true;
+			if (Objects.nonNull(id)) {
+				Optional<Course> course = courseRepo.findById(id);
+				if (course.isPresent()) {
+					courseRepo.deleteById(id);
+					return true;
+				}
+				return false;
 			}
 		} catch (Exception e) {
-			throw new DaoException("Unable to delete Course: " + dtoCourse.toString(), e);
+			throw new DaoException("Unable to delete Course with id:" + id, e);
 		}
 		return false;
 	}
