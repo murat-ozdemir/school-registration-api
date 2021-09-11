@@ -29,7 +29,7 @@
 	 - `git clone https://github.com/murat-ozdemir/school-registration-api.git`
 	 - `cd school-registration-api`
  - Build project with maven
- 	- `mvn clean install`
+ 	- `mvn -Dmaven.test.skip=true clean install`
  - Jar file should be created at .**/target/** folder
  - Build school registration service docker image
 	 - `docker image build -t school-registration .`
