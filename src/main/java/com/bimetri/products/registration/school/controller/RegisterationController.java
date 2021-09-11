@@ -28,8 +28,6 @@ import com.bimetri.products.registration.school.bean.response.SuccessDataResult;
 import com.bimetri.products.registration.school.dao.DaoCourse;
 import com.bimetri.products.registration.school.dao.DaoCourseRegistration;
 import com.bimetri.products.registration.school.dao.DaoStudent;
-import com.bimetri.products.registration.school.service.CourseService;
-import com.bimetri.products.registration.school.service.StudentService;
 
 @RestController
 public class RegisterationController {
@@ -43,14 +41,6 @@ public class RegisterationController {
 	@Autowired
 	@Qualifier("DaoCourse")
 	private DaoCourse daoCourse;
-
-	@Autowired
-	@Qualifier("StudentService")
-	private StudentService studentService;
-
-	@Autowired
-	@Qualifier("CourseService")
-	private CourseService courseService;
 
 	@Autowired
 	@Qualifier("DaoCourseRegistration")
@@ -126,7 +116,7 @@ public class RegisterationController {
 	@GetMapping("/registeration/forcourse/{courseId}")
 	public ResponseEntity<?> getStudentsByCourse(@PathVariable Integer courseId) {
 		try {
-			DtoCourse course = courseService.findCourseById(courseId);
+			DtoCourse course = daoCourse.findByCourseId(courseId);
 			Result result = null;
 			if (Objects.nonNull(course)) {
 				result = new SuccessDataResult<DtoCourse>(course);
@@ -144,7 +134,7 @@ public class RegisterationController {
 	@GetMapping("/registeration/forstudent/{studentId}")
 	public ResponseEntity<?> getCoursesByStudent(@PathVariable Integer studentId) {
 		try {
-			DtoStudent student = studentService.findStudentById(studentId);
+			DtoStudent student = daoStudent.findByStudentId(studentId);
 			Result result = null;
 			if (Objects.nonNull(student)) {
 				result = new SuccessDataResult<DtoStudent>(student);
