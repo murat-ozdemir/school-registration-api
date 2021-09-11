@@ -3,7 +3,9 @@
  - Docker Engine should be installed
  - Git command-line client should be installed
  - Postman (preferred), curl or any other rest client and rest service test tool
- - At least 2 GB System memory (RAM)
+ - JDK 11 should be installed to build project
+ - Maven should be installed to build project
+ - At least 4 GB System memory (RAM)
  - At least 800 Mbytes of storage (for docker images)
 
 ## Installation
@@ -26,6 +28,9 @@
  - Clone project from Github
 	 - `git clone https://github.com/murat-ozdemir/school-registration-api.git`
 	 - `cd school-registration-api`
+ - Build project with maven
+ 	- `mvn clean install`
+ - Jar file should be created at .**/target/** folder
  - Build school registration service docker image
 	 - `docker image build -t school-registration .`
  - Run school registration service docker image
