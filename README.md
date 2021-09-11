@@ -65,11 +65,11 @@
 		 - `{ "studentId": 1, "age": 15 }`
 		 - Partial property update is allowed!
  - Delete User Service
-	 - [Click here to browse documentation](http://localhost:8080/api/swagger-ui.htm)
+	 - [Click here to browse documentation](http://localhost:8080/api/swagger-ui.html)
  - Get User Service
-	 - [Click here to browse documentation](http://localhost:8080/api/swagger-ui.htm)
+	 - [Click here to browse documentation](http://localhost:8080/api/swagger-ui.html)
  - List Users Service
-	 - [Click here to browse documentation](http://localhost:8080/api/swagger-ui.htm)
+	 - [Click here to browse documentation](http://localhost:8080/api/swagger-ui.html)
 
 ### Course CRUD Api
  - Add Course Service
@@ -88,11 +88,11 @@
 		 - `{ "courseId": 1, "credits": 6 }`
 		 - Partial property update is allowed!
  - Delete CourseService
-	 - [Click here to browse documentation](http://localhost:8080/api/swagger-ui.htm)
+	 - [Click here to browse documentation](http://localhost:8080/api/swagger-ui.html)
  - Get Course Service
 	 - [Click here to browse documentation](http://localhost:8080/api/swagger-ui.html)
  - List Course Service
-	 - [Click here to browse documentation](http://localhost:8080/api/swagger-ui.htm)
+	 - [Click here to browse documentation](http://localhost:8080/api/swagger-ui.html)
 
 ### Student Course Registration Api 
  - Add Registration Service
@@ -105,10 +105,10 @@
 		 - [Http 404] ErrorResult model with description
 		 - [Http 201] SuccessDataResult model with Course Registration model in ‘data’ field
  - Get Students Registered To A Course
-	 - [Click here to browse documentation](http://localhost:8080/api/swagger-ui.htm)
+	 - [Click here to browse documentation](http://localhost:8080/api/swagger-ui.html)
  - Get Courses Which A Student Registered
-	 - [Click here to browse documentation](http://localhost:8080/api/swagger-ui.htm)
+	 - [Click here to browse documentation](http://localhost:8080/api/swagger-ui.html)
  - Get Courses Without Any Students
-	 - [Click here to browse documentation](http://localhost:8080/api/swagger-ui.htm)
+	 - [Click here to browse documentation](http://localhost:8080/api/swagger-ui.html)
  - Get Students Without Any Courses
-	 - [Click here to browse documentation](http://localhost:8080/api/swagger-ui.htm)
+	 - [Click here to browse documentation](http://localhost:8080/api/swagger-ui.html)
