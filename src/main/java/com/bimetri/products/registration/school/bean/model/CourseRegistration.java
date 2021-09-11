@@ -37,7 +37,4 @@ public class CourseRegistration extends ModelBase {
 	
 	@Column(name="registerationtime")
 	private LocalDateTime registerationTime;
-	
-	@Column(name = "grade")
-    private int grade;
 }

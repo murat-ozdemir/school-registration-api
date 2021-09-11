@@ -6,6 +6,7 @@ import org.springframework.lang.NonNull;
 
 import com.bimetri.products.registration.school.bean.DtoBase;
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 
@@ -18,7 +19,11 @@ public class DtoCourseRegistration extends DtoBase {
 	private static final long serialVersionUID = -4640489190089884779L;
 	
 	private Integer registrationId;
+	
+	@JsonIgnoreProperties("registrations")
 	private DtoStudent student;
+	
+	@JsonIgnoreProperties("registrations")
 	private DtoCourse course;
 	
 	@NonNull 
@@ -26,6 +31,6 @@ public class DtoCourseRegistration extends DtoBase {
 	private LocalDateTime registerationTime;
     
 	@NonNull 
-	private int grade;
+	private Integer grade;
 
 }

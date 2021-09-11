@@ -23,6 +23,7 @@ import com.bimetri.products.registration.school.bean.response.ErrorResult;
 import com.bimetri.products.registration.school.bean.response.Result;
 import com.bimetri.products.registration.school.bean.response.SuccessDataResult;
 import com.bimetri.products.registration.school.dao.DaoStudent;
+import com.bimetri.products.registration.school.service.StudentService;
 
 @RestController
 public class StudentController {
@@ -32,6 +33,10 @@ public class StudentController {
 	@Autowired
 	@Qualifier("DaoStudent")
 	private DaoStudent daoStudent;
+	
+	@Autowired
+	@Qualifier("StudentService")
+	private StudentService studentService;
 
 	@GetMapping("/student/list")
 	public ResponseEntity<?> getAllStudents() {
@@ -54,7 +59,7 @@ public class StudentController {
 	@GetMapping("/student/{studentId}")
 	public ResponseEntity<?> getStudent(@PathVariable Integer studentId) {
 		try {
-			DtoStudent student = daoStudent.findByStudentId(studentId);
+			DtoStudent student = studentService.findStudentById(studentId);
 			Result result = null;
 			if (Objects.nonNull(student)) {
 				result = new SuccessDataResult<DtoStudent>(student);

@@ -23,6 +23,7 @@ import com.bimetri.products.registration.school.bean.response.ErrorResult;
 import com.bimetri.products.registration.school.bean.response.Result;
 import com.bimetri.products.registration.school.bean.response.SuccessDataResult;
 import com.bimetri.products.registration.school.dao.DaoCourse;
+import com.bimetri.products.registration.school.service.CourseService;
 
 @RestController
 public class CourseController {
@@ -31,6 +32,10 @@ public class CourseController {
 	@Autowired
 	@Qualifier("DaoCourse")
 	private DaoCourse daoCourse;
+	
+	@Autowired
+	@Qualifier("CourseService")
+	private CourseService courseService;
 
 	@GetMapping("/course/list")
 	public ResponseEntity<?> getAllCourses() {
@@ -53,7 +58,7 @@ public class CourseController {
 	@GetMapping("/course/{courseId}")
 	public ResponseEntity<?> getCourse(@PathVariable Integer courseId) {
 		try {
-			DtoCourse course = daoCourse.findByCourseId(courseId);
+			DtoCourse course = courseService.findCourseById(courseId);
 			Result result = null;
 			if ( Objects.nonNull(course)) {
 				result = new SuccessDataResult<DtoCourse>(course);

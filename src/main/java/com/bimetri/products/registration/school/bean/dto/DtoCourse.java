@@ -6,6 +6,7 @@ import org.springframework.lang.NonNull;
 
 import com.bimetri.products.registration.school.bean.CourseCategory;
 import com.bimetri.products.registration.school.bean.DtoBase;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 
@@ -31,5 +32,6 @@ public class DtoCourse extends DtoBase {
 	@NonNull 
 	private Short classNumber;
 	
+	@JsonIgnoreProperties("course")
 	private List<DtoCourseRegistration> registrations;
 }

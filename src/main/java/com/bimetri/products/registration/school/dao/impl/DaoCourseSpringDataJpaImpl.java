@@ -116,7 +116,6 @@ public class DaoCourseSpringDataJpaImpl extends DaoBase implements DaoCourse {
 					courseRepo.deleteById(id);
 					return true;
 				}
-				return false;
 			}
 		} catch (Exception e) {
 			throw new DaoException("Unable to delete Course with id:" + id, e);
