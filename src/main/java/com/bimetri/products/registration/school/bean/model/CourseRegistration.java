@@ -4,6 +4,8 @@ import java.time.LocalDateTime;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -16,12 +18,12 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Entity
-@Getter @Setter @NoArgsConstructor
 @Table(name="course_registration")
+@Getter @Setter @NoArgsConstructor
 public class CourseRegistration extends ModelBase {
 	private static final long serialVersionUID = -4471380436705559932L;
 
-	@Id
+	@Id  @GeneratedValue(strategy=GenerationType.AUTO)
 	@Column(name = "registrationid")
 	private Integer registrationId;
 	
@@ -33,7 +35,6 @@ public class CourseRegistration extends ModelBase {
     @JoinColumn(name = "courseid")
 	private Course course;
 	
-	//@Temporal(TemporalType.TIMESTAMP)
 	@Column(name="registerationtime")
 	private LocalDateTime registerationTime;
 	

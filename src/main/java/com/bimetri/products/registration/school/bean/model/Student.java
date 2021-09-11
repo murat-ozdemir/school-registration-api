@@ -6,6 +6,8 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
@@ -23,7 +25,7 @@ import lombok.Setter;
 public class Student extends ModelBase {
 	private static final long serialVersionUID = 7631361560672418798L;
 	
-	@Id
+	@Id  @GeneratedValue(strategy=GenerationType.AUTO)
 	@Column(name = "studentid")
 	private Integer studentId;
 	
